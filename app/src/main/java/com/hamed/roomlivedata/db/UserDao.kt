@@ -1,6 +1,6 @@
-package com.hamed.roomlivedata.db
+package com.hamed.roomlivedatapaging.db
 
-import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -15,5 +15,6 @@ interface UserDao {
     @Delete fun deleteUser(user:User)
 
     @Query("DELETE FROM user WHERE name LIKE :name")fun deleteUser(name : String)
-    @Query("SELECT * FROM user") fun getAllUser() : LiveData<List<User>>
+    @Query("SELECT * FROM user") fun getAllUser() : DataSource.Factory<Int,User>
+
 }

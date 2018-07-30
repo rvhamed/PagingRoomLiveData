@@ -1,8 +1,10 @@
-package com.hamed.roomlivedata.db
+package com.hamed.roomlivedatapaging.db
 
 import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 
 class UserRepository(var application: Application) {
 
@@ -35,7 +37,13 @@ class UserRepository(var application: Application) {
         DeleteUser(userDao()).execute(name)
     }
 
-    fun getAllUser(): LiveData<List<User>>{
-        return userDao().getAllUser()
+    fun getAllUser(): LiveData<PagedList<User>>{
+        val pagedConfig = PagedList.Config.Builder()
+                .setEnablePlaceholders(true)
+                .setPageSize(10)
+                .setPrefetchDistance(20)
+                .build()
+
+        return LivePagedListBuilder(userDao().getAllUser(),pagedConfig).build()
     }
 }
